@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Ingress Report generator</title>
+    <!-- превед, инлойсики! -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+
+  <body>
+
+  <p></p>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+		  <div class="well">
+		  <div class="form-group">
+			  Имя агента, нарушающего ToS:
+			  <input type="text" class="mytext form-control">
+		  </div>
+
+	<h4>GPS spoofing #1</h4>
+
+	<p id="contentInput1"></p><hr>
+
+	<h4>GPS spoofing #2</h4>
+
+	<p id="contentInput2"></p><hr>
+
+	<h4>GPS spoofing #3</h4>
+
+	<p id="contentInput3"></p><hr>
+
+	<h4>Multiaccounting #1</h4>
+
+	<p id="contentInput4"></p><hr>
+
+	<h4>Multiaccounting #2</h4>
+
+	<p id="contentInput5"></p>
+
+  </div>
+
+<a href="https://support.ingress.com/hc/en-us/requests/new?ticket_form_id=164398" target="_blank" class="btn btn-block btn-lg btn-primary">Перейти на сайт<br>support.ingress.com</a>
+
+</div>
+
+<script>
+
+$(document).ready ( function(){
+
+	$(".mytext").keyup(function() {
+
+	         $('#contentInput1' ).text("Please investigate the activity of agent @" + $(".mytext").val() + " who has been long suspected in multiple spoofing incidents. We ask you to take urgent action, if spoofing is confirmed, to prevent unfair gameplay.");
+
+	         $('#contentInput2').text("Please investigate the activity of the account @" + $(".mytext").val() + ". We suspect this agent uses GPS spoofing to appear near portals in distant places just in time to destroy opposing faction large fields. If confirmed, we demand a permanent ban for this account for violating the ToS. Thank you!");
+
+	         $('#contentInput3').text("Please investigate the activity of the account @" + $(".mytext").val() + ". There were numerous incidents when none of agents noticed any person in sight, though mentioned-above account made in-game actions right near the real players. We believe that this account uses GPS-spoofing software and must be permanently banned for violating ToS. Best regards!");
+
+	         $('#contentInput4').text("Please investigate the activity of the account @" + $(".mytext").val() + " and his log-in/log-out timings. In our area he is well-known as a side-account made for farming resources and taking unfair advantage over other players. We believe this account must be bannned permanently. Thank you in advance.");
+
+	         $('#contentInput5').text("Please investigate the activity of the account @" + $(".mytext").val() + ". We believe that this agent has several other accounts used for storing stuff, giving unfair advantage in the game. If confirmed, we kindly ask you to ban this account permanently. Thanks in advance.");
+	});
+
+});
+
+</script>
+      </div>
+    </div>
+  </div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</body>
+</html>
