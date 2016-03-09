@@ -12,11 +12,11 @@
             margin: 0px;
         }
         #YMapsID {
-            width: 900px;
-            height: 500px;
+            width: 1280px;
+            height: 800px;
         }
         #YMapsCode {
-            width: 880px;
+            width: 1250px;
         }
     </style>
 
@@ -28,7 +28,7 @@
     <script type="text/javascript">
         ymaps.ready(function () {
             var map = new ymaps.Map('YMapsID', {
-                    center: [37.774546, -122.433523],
+                    center: [55.75,37.616667],
                     controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
                     zoom: 12, type: 'yandex#satellite'
                 }),
@@ -54,43 +54,6 @@
                     opacity: opacities[2]
                 });
                 heatmap.setMap(map);
-
-                buttons.dissipating.events.add('press', function () {
-                    heatmap.options.set(
-                        'dissipating', !heatmap.options.get('dissipating')
-                    );
-                });
-                buttons.opacity.events.add('press', function () {
-                    var current = heatmap.options.get('opacity'),
-                        index = opacities.indexOf(current);
-                    heatmap.options.set(
-                        'opacity', opacities[++index == opacities.length ? 0 : index]
-                    );
-                });
-                buttons.radius.events.add('press', function () {
-                    var current = heatmap.options.get('radius'),
-                        index = radiuses.indexOf(current);
-                    heatmap.options.set(
-                        'radius', radiuses[++index == radiuses.length ? 0 : index]
-                    );
-                });
-                buttons.gradient.events.add('press', function () {
-                    var current = heatmap.options.get('gradient');
-                    heatmap.options.set(
-                        'gradient', current == gradients[0] ? gradients[1] : gradients[0]
-                    );
-                });
-                buttons.heatmap.events.add('press', function () {
-                    heatmap.setMap(
-                        heatmap.getMap() ? null : map
-                    );
-                });
-
-                for (var key in buttons) {
-                    if (buttons.hasOwnProperty(key)) {
-                        map.controls.add(buttons[key]);
-                    }
-                }
             });
         });
     </script>
