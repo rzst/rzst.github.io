@@ -12,11 +12,11 @@
             margin: 0px;
         }
         #YMapsID {
-            width: 1280px;
-            height: 800px;
+            width: 900px;
+            height: 600px;
         }
         #YMapsCode {
-            width: 1250px;
+            width: 50px;
         }
     </style>
 
@@ -30,7 +30,7 @@
             var map = new ymaps.Map('YMapsID', {
                     center: [55.75,37.616667],
                     controls: ['zoomControl', 'typeSelector',  'fullscreenControl'],
-                    zoom: 12, type: 'yandex#satellite'
+                    zoom: 12, type: 'yandex#map'
                 }),
 
                 gradients = [{
@@ -58,7 +58,7 @@
         });
     </script>
 </head>
-<body>
+<body align="center">
     <div class="hero-unit">
         <div class="container">
             <p>Yandex Maps API <a href="https://github.com/yandex/mapsapi-heatmap">Heatmap Module</a></p>
