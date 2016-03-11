@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/static/main.css" />
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<title>Чекпойнты</title>
+<style type="text/css">
+#septicycle th { color: #666; text-align: center; }
+#septicycle .section_header td { text-align: center; padding-right: 118px; }
+#septicycle td:nth-child(n+4) { text-align: right; }
+#septicycle .now td:nth-child(1) { text-align: center; width: 16px; }
+#septicycle .now td:nth-child(2) { font-weight: bold; }
+#septicycle .monday { text-decoration: underline; }
+#septicycle .past { color: #ccc; }
+#septicycle .next { color: #c00; font-weight: bold; }
+#show_more { text-align: center; margin: 5px 96px 0 0; }
+</style>
+<script type="text/javascript">
+function pad2(n)
+{
+	return ('0' + n).slice(-2);
+}
+function format_date(t)
+{
+	return pad2(t.getDate())+'.'+pad2(t.getMonth()+1)+'.'+t.getFullYear();
+}
+function format_time(t)
+{
+	return pad2(t.getHours())+':'+pad2(t.getMinutes());
+}
+function build_calendar()
+{
+	var days = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
+	var hp = 3600000;
+	var cp = 18000000;
+	var sp = 630000000;
+	var cc = sp / cp;
+
+	var now = new Date();
+	//now = new Date(2014, 4, 20, 20, 00); // debug
+
+	var refresh = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1);
+	setTimeout(build_calendar, refresh - now + 1);
+
+	var tbody = $('#septicycle tbody');
+	tbody.html('<tr><th></th><th>Дата</th><th>День</th><th>0-4</th><th>5-9</th><th>10-14</th><th>15-19</th><th>20-24</th></tr>');
+
+	for(var s=-1; s<=1; ++s)
+	{
+		var sept_current = Math.floor(now / sp) + s;
+		var tm = new Date(sept_current * sp); // septicycle begin
+
+		var year = tm.getUTCFullYear();
+		var jan01 = Date.UTC(year, 0, 1);
+		var sept_first = Math.ceil(jan01 / sp);
+		var sept_name = year + '.' + pad2(sept_current - sept_first + 1);
+		tbody.append('<tr class="section_header"><td colspan="8">'+sept_name+'</td></tr>');
+
+		var fc = tm.getTime() + cp; // first checkpoint
+		tm = new Date(fc);
+
+		var offset = Math.floor(tm.getHours() / 5);
+		var c = -offset;
+
+		while(c < cc)
+		{
+			var row = '';
+			var row_min = null;
+			var row_max = null;
+
+			for(var i=0; i<5; ++i, ++c)
+			{
+				if(c < 0 || c >= cc)
+				{
+					row += '<td></td>';
+					continue;
+				}
+
+				tm = new Date(fc + c * cp);
+
+				row_max = new Date(tm.getTime());
+
+				if(!row_min)
+				{
+					row_min = new Date(tm.getTime());
+				}
+
+				var cell_class = '';
+				if(tm <= now)
+				{
+					cell_class = 'past';
+				}
+				else if(tm - now <= cp)
+				{
+					// подсвечиваем 00:00 только один раз (можно убрать)
+					if(c == 0 || i == 4 || tm.getHours() != 0)
+						cell_class = 'next';
+				}
+
+				row += '<td class="' + cell_class + '">' + format_time(tm) + '</td>';
+
+				if(c != 34 && i == 4 && tm.getHours() == 0)
+				{
+					// повторяем 00:00 два раза
+					c--;
+				}
+			}
+
+			if(row_min.getHours() <= 4)
+			{
+				row_min.setHours(0,0,0,0);
+			}
+			else
+			{
+				row_min.setMilliseconds(-cp);
+			}
+
+			if(row_max.getHours() >= 20)
+			{
+				row_max.setHours(24,0,0,0);
+			}
+
+			var is_now = row_min <= now && now < row_max;
+
+			var is_monday = false;
+			if(row_min.getDay() == 1)
+			{
+				// из двух понедельников подряд выделяем второй
+				// (первый в следующем цикле вместо последнего в предыдущем)
+				var t = new Date(row_min.getTime());
+				t.setHours(20,0,0,0);
+				is_monday = row_max >= t;
+			}
+
+			var tr = '';
+			tr += '<tr class="' + (is_now ? 'now' : '') + '">';
+			tr += '<td>' + (is_now ? '►' : '') + '</td>';
+			tr += '<td>' + format_date(row_min) + '</td>';
+			tr += '<td class="' + (is_monday ? 'monday' : '') + '">' + days[row_min.getDay()].toLowerCase() + '</td>';
+			tr += row;
+			tr += "</tr>\n";
+
+			tbody.append(tr);
+		}
+	}
+}
+$(function()
+{
+	build_calendar();
+});
+</script>
+</head>
+<body>
+<div id="content-frame"><div id="content">
+<h1>Чекпойнты</h1>
+<noscript><h2>Your browser does not have JavaScript support enabled. JavaScript is required to see checkpoints.</h2></noscript>
+<table class="ice" id="septicycle">
+<tbody>
+</tbody>
+</table>
+<div id="show_more"><a href="?n=2#bottom">(ещё)</a></div>
+<div id="bottom"></div>
+</div></div>
+<!-- Process time: 0 seconds -->
+</body>
+</html>
