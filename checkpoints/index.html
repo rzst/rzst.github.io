@@ -18,6 +18,7 @@
 #show_more { text-align: center; margin: 5px 96px 0 0; }
 </style>
 <script type="text/javascript">
+var last_date;
 function pad2(n)
 {
 	return ('0' + n).slice(-2);
@@ -30,7 +31,7 @@ function format_time(t)
 {
 	return pad2(t.getHours())+':'+pad2(t.getMinutes());
 }
-function build_calendar()
+function build_calendar(cont_date)
 {
 	var days = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
 	var hp = 3600000;
@@ -41,15 +42,23 @@ function build_calendar()
 	var now = new Date();
 	//now = new Date(2014, 4, 20, 20, 00); // debug
 
-	var refresh = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1);
-	setTimeout(build_calendar, refresh - now + 1);
+	var date_to_display = now;
+
+	if (cont_date != null) {
+		date_to_display = cont_date;
+	}
+
+	var refresh = new Date(date_to_display.getFullYear(), date_to_display.getMonth(), date_to_display.getDate(), date_to_display.getHours() + 1);
+	setTimeout(build_calendar, refresh - date_to_display + 1);
 
 	var tbody = $('#septicycle tbody');
-	tbody.html('<tr><th></th><th>Дата</th><th>День</th><th>0-4</th><th>5-9</th><th>10-14</th><th>15-19</th><th>20-24</th></tr>');
+	if (cont_date == null) {
+		tbody.html('<tr><th></th><th>Дата</th><th>День</th><th>0-4</th><th>5-9</th><th>10-14</th><th>15-19</th><th>20-24</th></tr>');
+	}
 
 	for(var s=-1; s<=1; ++s)
 	{
-		var sept_current = Math.floor(now / sp) + s;
+		var sept_current = Math.floor(date_to_display / sp) + s;
 		var tm = new Date(sept_current * sp); // septicycle begin
 
 		var year = tm.getUTCFullYear();
@@ -143,13 +152,19 @@ function build_calendar()
 			tr += "</tr>\n";
 
 			tbody.append(tr);
+			last_date = row_max;
 		}
 	}
 }
 $(function()
 {
-	build_calendar();
+	build_calendar(null);
+
+	$("#show_more").click(function() {
+		build_calendar(last_date);
+	});
 });
+
 </script>
 </head>
 <body>
@@ -160,7 +175,7 @@ $(function()
 <tbody>
 </tbody>
 </table>
-<div id="show_more"><a href="?n=2#bottom">(ещё)</a></div>
+<div id="show_more"><a href="#bottom">(ещё)</a></div>
 <div id="bottom"></div>
 </div></div>
 <!-- Process time: 0 seconds -->
