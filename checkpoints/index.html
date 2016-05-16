@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="/static/main.css" />
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<title>Чекпойнты</title>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<title>Ingress Checkpoints</title>
+<meta charset="UTF-8">
 <style type="text/css">
 #septicycle th { color: #666; text-align: center; }
 #septicycle .section_header td { text-align: center; padding-right: 118px; }
@@ -16,9 +16,154 @@
 #septicycle .past { color: #ccc; }
 #septicycle .next { color: #c00; font-weight: bold; }
 #show_more { text-align: center; margin: 5px 96px 0 0; }
+
+body {
+	font-family: Verdana,Geneva,sans-serif;
+}
+
+.ice th,
+.ice td {
+	font-size: 13px;
+}
+
+.ice.text th,
+.ice.text td,
+body {
+	font-size: 14px;
+}
+
+html.badfonts .ice th,
+html.badfonts .ice td,
+html.badfonts body {
+	font-family: serif;
+	font-size: 14px;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+#absolute_frame,
+body {
+	margin: 30px 0;
+}
+
+#debug_info {
+	font-family: monospace;
+	background-color: #fcc;
+	padding: 2px 8px;
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+
+img {
+	border: 0; /*IE6*/
+}
+
+#content-frame {
+}
+
+#absolute_frame,
+#content {
+	width: 800px;
+}
+
+#content {
+	margin: 0 auto;
+}
+
+.tabs a {
+	color: #000;
+}
+
+.ice .section_header,
+.ice .section_header:hover,
+.ice .section_header:hover td:hover {
+	font-weight: bold;
+	background-color: #f6f8f9;
+}
+
+/*************************
+  Ice Theme (by thezoggy)
+ *************************/
+.ice {
+	width: 100%;
+	background-color: #fff;
+	text-align: left;
+	border-spacing: 0;
+	border: #ccc 1px solid;
+	border-width: 1px 0 0 1px;
+}
+.ice th,
+.ice td {
+	border: #ccc 1px solid;
+	border-width: 0 1px 1px 0;
+}
+.ice th,
+.ice thead td {
+	background-color: #f6f8f9;
+	border-collapse: collapse;
+	padding: 3px 8px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.ice tbody td,
+.ice tfoot th,
+.ice tfoot td {
+	padding: 4px 8px;
+	vertical-align: top;
+}
+.ice td {
+	color: #333;
+}
+.ice tbody > tr:hover > td,
+.ice tbody > tr.even:hover > td,
+.ice tbody > tr.odd:hover > td {
+	background: #ebf2fa;
+}
+caption {
+	background: #fff;
+}
+
+.ice .header,
+.ice .tablesorter-header {
+	background: #f6f8f9 no-repeat center right;
+	background-image: url(data:image/gif;base64,R0lGODlhDAAMAMQAAAJEjAJCiwJBigJAiANFjgNGjgNEjQRIkQRHkANIkAVMlAVQmAZWnQZUnAdYoAhdpAhZoAlhqQlepQliqQppsApmrQxutgtutQtutAxwtwxwtg1yug1zugxtsw1yuP8A/yH5BAEAAB8ALAAAAAAMAAwAAAUx4Cd+3GiOW4ado2d9VMVm1xg9ptadTsP+QNZEcjoQTBDGCAFgLRSfQgCYMAiCn8EvBAA7);
+	cursor: pointer;
+}
+.ice .headerSortUp,
+.ice .tablesorter-headerSortUp,
+.ice .tablesorter-headerAsc {
+	background: #ebedee no-repeat center right;
+	background-image: url(data:image/gif;base64,R0lGODlhDAAMANUAAAJCiwNHkANFjgNEjQRIkQNJkQRMlARKkwRKkgVPlwZSmgdaogdYnwhfpghcowlhqgliqglgqAlgpwljqwporwpmrQplrAtsswtqsgtrsgtqsQxttAtvtQtttAxyuQxwtwxxtwxvtg10uw1zuQ1xuP8A/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACUALAAAAAAMAAwAAAY6wJKwJBoahyNQ6Dj0fDoZCpPEuWgqk4jxs8FQLI+Gg8Esm5kQydFQMC7IwkOAqUiUCAIzIjA4lwBlQQA7);
+}
+.ice .headerSortDown,
+.ice .tablesorter-headerSortDown,
+.ice .tablesorter-headerDesc {
+	background: #ebedee no-repeat center right;
+	background-image: url(data:image/gif;base64,R0lGODlhDAAMANUAAAE/iAJBigNFjgNEjQNFjQNDiwRHkQRHjwNHjwROlgRMlQRMlARJkgRKkgZQmAVPlgZWnQZSmgZRmAdXoAdXnwdUnAdbogdZoQhbowlhqAlepglkrAliqQtstAtqsQxyugxyuQxwuAxxuAxxtwxwtgxvtQ10vA12vA10u/8A/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACkALAAAAAAMAAwAAAY6wJQwdRoah6bP6DhEiVIdDxNEGm4yxlDpiJkwv2AmR2OhVCSJBsJ4gUQeCwOB6VAwBAXwYRAIpwBfQQA7);
+}
+.ice thead .sorter-false {
+	background-image: none;
+	cursor: default;
+}
 </style>
 <script type="text/javascript">
 var last_date;
+var days_ru = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
+var days_en = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var words_en = [];
+words_en['date'] = "Date";
+words_en['weekday'] = "Weekday";
+words_en['title'] = "Checkpoints";
+words_en['more'] = "(more)";
+var words_ru = [];
+words_ru['date'] = "Дата";
+words_ru['weekday'] = "День";
+words_ru['title'] = "Отсечки";
+words_ru['more'] = "(ещё)";
+
 function pad2(n)
 {
 	return ('0' + n).slice(-2);
@@ -31,9 +176,72 @@ function format_time(t)
 {
 	return pad2(t.getHours())+':'+pad2(t.getMinutes());
 }
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+function detectLanguage() {
+	var chp_lang = readCookie("chp_lang");
+	if (chp_lang == null) {
+		var language = window.navigator.language;
+		if (language) {
+			chp_lang = language.substring(0, 2);
+		}
+	}
+
+	switch (chp_lang) {
+		case "ru":
+			chp_lang = "ru";
+			break;
+		case "en":
+		default:
+			chp_lang = "en";
+			break;
+	}
+
+	createCookie("chp_lang", chp_lang, 365);
+	return chp_lang;
+}
+function changeLanguage(lang) {
+	createCookie("chp_lang", lang, 365);
+	location.reload();
+}
+
+var lang = detectLanguage();
+var words;
+var days;
+switch (lang) {
+	case "ru":
+		days = days_ru;
+		words = words_ru;
+		break;
+	case "en":
+	default:
+		days = days_en;
+		words = words_en;
+		break;
+}
+
 function build_calendar(cont_date)
 {
-	var days = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
 	var hp = 3600000;
 	var cp = 18000000;
 	var sp = 630000000;
@@ -53,7 +261,7 @@ function build_calendar(cont_date)
 
 	var tbody = $('#septicycle tbody');
 	if (cont_date == null) {
-		tbody.html('<tr><th></th><th>Дата</th><th>День</th><th>0-4</th><th>5-9</th><th>10-14</th><th>15-19</th><th>20-24</th></tr>');
+		tbody.html('<tr><th></th><th>' + words['date']+ '</th><th>' + words['weekday'] + '</th><th>0-4</th><th>5-9</th><th>10-14</th><th>15-19</th><th>20-24</th></tr>');
 	}
 
 	for(var s=-1; s<=1; ++s)
@@ -147,7 +355,7 @@ function build_calendar(cont_date)
 			tr += '<tr class="' + (is_now ? 'now' : '') + '">';
 			tr += '<td>' + (is_now ? '►' : '') + '</td>';
 			tr += '<td>' + format_date(row_min) + '</td>';
-			tr += '<td class="' + (is_monday ? 'monday' : '') + '">' + days[row_min.getDay()].toLowerCase() + '</td>';
+			tr += '<td class="' + (is_monday ? 'monday' : '') + '">' + days[row_min.getDay()] + '</td>';
 			tr += row;
 			tr += "</tr>\n";
 
@@ -160,24 +368,33 @@ $(function()
 {
 	build_calendar(null);
 
+	document.getElementById("title").innerHTML = words['title'];
+	document.getElementById("more").innerHTML = words['more'];
+
 	$("#show_more").click(function() {
 		build_calendar(last_date);
 	});
-});
 
+	$("#lang_en").click(function() {
+		changeLanguage("en");
+	});
+
+	$("#lang_ru").click(function() {
+		changeLanguage("ru");
+	});
+});
 </script>
 </head>
 <body>
 <div id="content-frame"><div id="content">
-<h1>Чекпойнты</h1>
+<table width="100%"><tr><td><h1 id="title">Checkpoints</h1></td><td align="right"><h1 style="font-weight: normal">&nbsp;&nbsp;<a id="lang_en" href="#bottom">en</a>/<a id="lang_ru" href="#bottom">ru</a></h1></td></tr></table>
 <noscript><h2>Your browser does not have JavaScript support enabled. JavaScript is required to see checkpoints.</h2></noscript>
 <table class="ice" id="septicycle">
 <tbody>
 </tbody>
 </table>
-<div id="show_more"><a href="#bottom">(ещё)</a></div>
+<div id="show_more"><a id="more" href="#bottom">(more)</a></div>
 <div id="bottom"></div>
 </div></div>
-<!-- Process time: 0 seconds -->
 </body>
 </html>
